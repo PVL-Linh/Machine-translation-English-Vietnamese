@@ -91,7 +91,7 @@ The system supports:
 - Using microphone input for real-time voice translation
 
 <p align="center">
-  <img src="docs/ui_demo.png" width="600" />
+  <img src="docs/ui_demo27.png" width="600" />
 </p>
 
 ---
@@ -102,4 +102,3 @@ The system supports:
 git clone https://github.com/PVL-Linh/Machine-translation-English-Vietnamese.git
 cd Machine-translation-English-Vietnamese
 
-pip install -r requirements.txt
