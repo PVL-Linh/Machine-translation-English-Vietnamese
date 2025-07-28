@@ -104,10 +104,9 @@ git clone https://github.com/PVL-Linh/Machine-translation-English-Vietnamese.git
 cd Machine-translation-English-Vietnamese
 ```
 ---
-## 📥 Download Pretrained Model
-- ⚠️ Due to GitHub’s 100MB file size limit, the trained model (viEn_transformer1.pth, ~160MB) is not included in this repo.
+## 📥 Download Pretrained Mode
 
-- Please download the pretrained model manually from the Google Drive folder:
+Please download the pretrained model manually from the Google Drive folder:
 
 - 👉 [Download Model Folder](https://drive.google.com/drive/folders/1HFk8ZMtpn1oBcTdIWx7Od6XYu-7A_1p5?usp=drive_link)
 
