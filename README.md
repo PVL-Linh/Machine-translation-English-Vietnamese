@@ -102,4 +102,30 @@ The system supports:
 ```bash
 git clone https://github.com/PVL-Linh/Machine-translation-English-Vietnamese.git
 cd Machine-translation-English-Vietnamese
+```
+---
+## 📥 Download Pretrained Model
+- ⚠️ Due to GitHub’s 100MB file size limit, the trained model (viEn_transformer1.pth, ~160MB) is not included in this repo.
 
+- Please download the pretrained model manually from the Google Drive folder:
+
+- 👉 Download Model Folder
+
+After downloading:
+
+- Create folder: Model/save_model/
+
+- Move the file viEn_transformer1.pth into:
+
+- Model/save_model/viEn_transformer1.pth
+
+---
+## 📌 Notes
+- The project integrates NLP + speech + OCR in a complete translation pipeline.
+
+- You can extend the interface or replace the model with a more powerful one (e.g., fine-tuned mBART, T5, etc.)
+
+---
+## ✍️ Author
+- Phạm Văn Linh
+- 🔗 GitHub: PVL-Linh
