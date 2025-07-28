@@ -103,4 +103,3 @@ The system supports:
 git clone https://github.com/PVL-Linh/Machine-translation-English-Vietnamese.git
 cd Machine-translation-English-Vietnamese
 
-pip install -r requirements.txt
