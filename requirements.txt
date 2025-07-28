@@ -1,0 +1,25 @@
+.\venv\Scripts\activate
+
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+
+
+
+Cài đặt ffmpeg
+Tải ffmpeg tại: https://ffmpeg.org/download.html
+Chọn phiên bản tương ứng với hệ điều hành của bạn (Windows).
+Sau khi tải về, giải nén file zip vào một thư mục trên máy (ví dụ: C:\ffmpeg).
+2. Thêm ffmpeg vào PATH
+Vào Control Panel > System and Security > System > Advanced system settings.
+Chọn Environment Variables.
+Trong phần System variables, tìm biến Path và nhấn Edit.
+Thêm đường dẫn đến thư mục bin của ffmpeg. Ví dụ: C:\ffmpeg\bin.
+3. Kiểm tra ffmpeg
+Mở Command Prompt và chạy lệnh sau:
+bash
+Copy code
+ffmpeg -version
+Nếu hiển thị thông tin phiên bản, ffmpeg đã được cài đặt thành công.
+
+
+
+cài ocr 

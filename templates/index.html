@@ -1,0 +1,477 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Translation App with Image Cropping</title>-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            background-color: #f4f4f4;-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--            height: 100vh;-->
+<!--            margin: 0;-->
+<!--        }-->
+
+<!--        .container {-->
+<!--            width: 80%;-->
+<!--            max-width: 1200px;-->
+<!--            display: flex;-->
+<!--            flex-direction: row;-->
+<!--            background-color: #ffffff;-->
+<!--            border-radius: 8px;-->
+<!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);-->
+<!--            overflow: hidden;-->
+<!--        }-->
+
+<!--        .input-section,-->
+<!--        .output-section {-->
+<!--            width: 50%;-->
+<!--            padding: 20px;-->
+<!--            box-sizing: border-box;-->
+<!--        }-->
+
+<!--        .input-section {-->
+<!--            border-right: 1px solid #ddd;-->
+<!--        }-->
+
+<!--        textarea {-->
+<!--            width: 100%;-->
+<!--            height: 150px;-->
+<!--            padding: 10px;-->
+<!--            box-sizing: border-box;-->
+<!--            border: 1px solid #ccc;-->
+<!--            border-radius: 4px;-->
+<!--            font-size: 16px;-->
+<!--        }-->
+
+<!--        button {-->
+<!--            padding: 10px 20px;-->
+<!--            background-color: #007bff;-->
+<!--            color: #fff;-->
+<!--            border: none;-->
+<!--            border-radius: 4px;-->
+<!--            cursor: pointer;-->
+<!--            font-size: 16px;-->
+<!--        }-->
+
+<!--        button:hover {-->
+<!--            background-color: #0056b3;-->
+<!--        }-->
+
+<!--        .output-section {-->
+<!--            padding: 20px;-->
+<!--        }-->
+
+<!--        .translated-text {-->
+<!--            white-space: pre-wrap;-->
+<!--            background-color: #f0f0f0;-->
+<!--            padding: 10px;-->
+<!--            border-radius: 4px;-->
+<!--            min-height: 150px;-->
+<!--        }-->
+
+<!--        .mic-button {-->
+<!--            margin-top: 10px;-->
+<!--            padding: 10px;-->
+<!--            background-color: #ff4747;-->
+<!--            color: #fff;-->
+<!--            border: none;-->
+<!--            border-radius: 50%;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+<!--        .mic-button:hover {-->
+<!--            background-color: #cc3838;-->
+<!--        }-->
+
+<!--        .img-button {-->
+<!--            margin-top: 10px;-->
+<!--            padding: 10px;-->
+<!--            background-color: #28a745;-->
+<!--            color: #fff;-->
+<!--            border: none;-->
+<!--            border-radius: 4px;-->
+<!--            cursor: pointer;-->
+<!--            display: none; /* Ẩn nút này theo mặc định */-->
+<!--        }-->
+
+<!--        .img-button:hover {-->
+<!--            background-color: #218838;-->
+<!--        }-->
+
+<!--        /* Styles for image cropping */-->
+<!--        .image-container {-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--            margin-top: 10px;-->
+<!--            overflow: hidden; /* Ẩn phần bên ngoài của khung */-->
+<!--            border: 2px dashed #ccc; /* Khung viền cho ảnh */-->
+<!--            border-radius: 4px; /* Bo góc khung */-->
+<!--            background-color: #f0f0f0; /* Màu nền cho khung */-->
+<!--        }-->
+
+<!--        #image {-->
+<!--            max-width: 100%; /* Giới hạn chiều rộng hình ảnh */-->
+<!--            max-height: 100%; /* Giới hạn chiều cao hình ảnh */-->
+<!--            display: none; /* Ẩn hình ảnh khi chưa chọn */-->
+<!--            object-fit: contain; /* Giữ nguyên tỉ lệ và phù hợp với khung */-->
+<!--        }-->
+
+<!--        /* Custom file input */-->
+<!--        .file-input {-->
+<!--            display: none;-->
+<!--        }-->
+
+<!--        .file-label {-->
+<!--            display: inline-block;-->
+<!--            padding: 10px 20px;-->
+<!--            background-color: #007bff;-->
+<!--            color: #fff;-->
+<!--            border-radius: 4px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+<!--        .file-label:hover {-->
+<!--            background-color: #0056b3;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    <div class="container">-->
+<!--        <div class="input-section">-->
+<!--            <h2>Anh</h2>-->
+<!--            <form method="post" id="translationForm" enctype="multipart/form-data">-->
+<!--                <textarea name="sentence" id="sentence" placeholder="Enter your sentence here...">{{ src_sentence }}</textarea>-->
+<!--                <button type="submit">Translate</button>-->
+<!--                <button type="submit" class="mic-button" name="mic_button">🎤</button>-->
+
+<!--                &lt;!&ndash; Custom file input &ndash;&gt;-->
+<!--                <label class="file-label" for="imageInput">Choose Image</label>-->
+<!--                <input type="file" id="imageInput" class="file-input" name="image" accept="image/*">-->
+
+<!--                <div class="image-container">-->
+<!--                    <img id="image" alt="Upload an image to crop" />-->
+<!--                </div>-->
+
+<!--                <button type="submit" class="img-button" name="img_button">Extract Text</button>-->
+
+<!--                &lt;!&ndash; Hidden input fields to store crop data &ndash;&gt;-->
+<!--                <input type="hidden" id="cropX" name="cropX">-->
+<!--                <input type="hidden" id="cropY" name="cropY">-->
+<!--                <input type="hidden" id="cropWidth" name="cropWidth">-->
+<!--                <input type="hidden" id="cropHeight" name="cropHeight">-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div class="output-section">-->
+<!--            <h2>Translated Việt</h2>-->
+<!--            <div class="translated-text">{{ translated_sentence }}</div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>-->
+<!--    <script>-->
+<!--        const image = document.getElementById('image');-->
+<!--        const imageInput = document.getElementById('imageInput');-->
+<!--        const imgButton = document.querySelector('.img-button');-->
+<!--        let cropper;-->
+
+<!--        // When an image is selected-->
+<!--        imageInput.addEventListener('change', function(event) {-->
+<!--            const file = event.target.files[0];-->
+<!--            const reader = new FileReader();-->
+
+<!--            reader.onload = function(e) {-->
+<!--                image.src = e.target.result;-->
+<!--                image.style.display = 'block';  // Show the image-->
+<!--                imgButton.style.display = 'inline-block'; // Hiện nút Extract Text-->
+<!--                if (cropper) {-->
+<!--                    cropper.destroy();  // Destroy the old cropper instance if it exists-->
+<!--                }-->
+
+<!--                // Initialize Cropper.js-->
+<!--                cropper = new Cropper(image, {-->
+<!--                    aspectRatio: NaN,  // Free cropping-->
+<!--                    viewMode: 1,-->
+<!--                    autoCropArea: 1,-->
+<!--                    movable: true,-->
+<!--                    zoomable: true,-->
+<!--                    rotatable: true,-->
+<!--                    scalable: true,-->
+<!--                });-->
+<!--            };-->
+
+<!--            reader.readAsDataURL(file);-->
+<!--        });-->
+
+<!--        // Before submitting the form, capture crop data-->
+<!--        document.querySelector('form').addEventListener('submit', function() {-->
+<!--            const cropData = cropper.getData();-->
+<!--            document.getElementById('cropX').value = cropData.x;-->
+<!--            document.getElementById('cropY').value = cropData.y;-->
+<!--            document.getElementById('cropWidth').value = cropData.width;-->
+<!--            document.getElementById('cropHeight').value = cropData.height;-->
+<!--        });-->
+<!--    </script>-->
+<!--</body>-->
+
+<!--</html>-->
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation App with Image Cropping</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: row;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .input-section,
+        .output-section {
+            width: 50%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .input-section {
+            border-right: 1px solid #ddd;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px; /* Add spacing between buttons */
+            margin-right: 10px; /* Right margin for spacing */
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .output-section {
+            padding: 20px;
+        }
+
+        .translated-text {
+            white-space: pre-wrap;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            min-height: 150px;
+        }
+
+        .mic-button {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #fff;
+            background-color: #ffffff; /* Default white */
+            border: 2px solid #007bff; /* Blue border */
+            font-size: 16px;
+            margin-right: 10px; /* Right margin for spacing */
+        }
+
+        .mic-button.red {
+            background-color: #ff4747; /* Red when recording */
+            border: 2px solid #ff4747; /* Match border with background */
+        }
+
+        .img-button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .img-button:hover {
+            background-color: #218838;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            overflow: hidden;
+            border: 2px dashed #ccc;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+        }
+
+        #image {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+            object-fit: contain;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            padding: 10px;
+            cursor: pointer;
+            margin-top: 10px; /* Add margin for spacing */
+        }
+
+        .file-label:hover {
+            background-color: #0056b3;
+        }
+
+        .file-label img {
+            width: 20px; /* Set icon size */
+            height: 20px; /* Set icon size */
+            vertical-align: middle; /* Align with text */
+            margin-right: 5px; /* Space between icon and text */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="input-section">
+            <h2>Anh</h2>
+            <form method="post" id="translationForm" enctype="multipart/form-data">
+                <textarea name="sentence" id="sentence" placeholder="Enter your sentence here...">{{ src_sentence }}</textarea>
+                <button type="submit">Translate</button>
+                <button type="submit" class="mic-button" id="micButton" name="mic_button">🎤</button>
+
+                <!-- Custom file input with an icon -->
+                <label class="file-label" for="imageInput">
+                    <img src="https://img.icons8.com/material-outlined/24/000000/image.png" alt="Choose Image" /> Image
+                </label>
+                <input type="file" id="imageInput" class="file-input" name="image" accept="image/*">
+
+                <div class="image-container">
+                    <img id="image" alt="Upload an image to crop" />
+                </div>
+
+                <button type="submit" class="img-button" name="img_button">Extract Text</button>
+
+                <!-- Hidden input fields to store crop data -->
+                <input type="hidden" id="cropX" name="cropX">
+                <input type="hidden" id="cropY" name="cropY">
+                <input type="hidden" id="cropWidth" name="cropWidth">
+                <input type="hidden" id="cropHeight" name="cropHeight">
+            </form>
+        </div>
+        <div class="output-section">
+            <h2>Translated Việt</h2>
+            <div class="translated-text">{{ translated_sentence }}</div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script>
+        const image = document.getElementById('image');
+        const imageInput = document.getElementById('imageInput');
+        const imgButton = document.querySelector('.img-button');
+        const micButton = document.getElementById('micButton');
+        const textarea = document.getElementById('sentence');
+        let cropper;
+
+        // When an image is selected
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                image.src = e.target.result;
+                image.style.display = 'block';
+                imgButton.style.display = 'inline-block'; // Show Extract Text button
+                if (cropper) {
+                    cropper.destroy(); // Destroy old cropper instance
+                }
+
+                // Initialize Cropper.js
+                cropper = new Cropper(image, {
+                    aspectRatio: NaN,
+                    viewMode: 1,
+                    autoCropArea: 1,
+                    movable: true,
+                    zoomable: true,
+                    rotatable: true,
+                    scalable: true,
+                });
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        // Handle mic button click
+        micButton.addEventListener('click', function() {
+            micButton.classList.toggle('red'); // Toggle red class
+        });
+
+        // Reset mic button color when text is entered
+        textarea.addEventListener('input', function() {
+            micButton.classList.remove('red'); // Remove red class
+        });
+
+        // Before submitting the form, capture crop data
+        document.querySelector('form').addEventListener('submit', function(event) {
+            const cropData = cropper.getData();
+            document.getElementById('cropX').value = cropData.x;
+            document.getElementById('cropY').value = cropData.y;
+            document.getElementById('cropWidth').value = cropData.width;
+            document.getElementById('cropHeight').value = cropData.height;
+        });
+    </script>
+</body>
+
+</html>
