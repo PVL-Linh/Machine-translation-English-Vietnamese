@@ -109,7 +109,7 @@ cd Machine-translation-English-Vietnamese
 
 - Please download the pretrained model manually from the Google Drive folder:
 
-- 👉 Download Model Folder
+- 👉 [Download Model Folder](https://drive.google.com/drive/folders/1HFk8ZMtpn1oBcTdIWx7Od6XYu-7A_1p5?usp=drive_link)
 
 After downloading:
 
