@@ -91,7 +91,7 @@ The system supports:
 - Using microphone input for real-time voice translation
 
 <p align="center">
-  <img src="docs/ui_demo27.png" width="600" />
+  <img src="docs/ui_demo37.png" width="600" />
 </p>
 
 ---
